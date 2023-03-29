@@ -37,7 +37,7 @@ namespace ShowAccuracyAndMisses
                 {
                     transform = {
                         parent = ingameUiCanvas.transform,
-                        position = new Vector3(975, 530, 0),
+                        localPosition = new Vector3(40, -20, 0),
                     },
                     layer = ingameUiCanvas.layer,
                 };
@@ -57,15 +57,15 @@ namespace ShowAccuracyAndMisses
                 {
                     transform = {
                         parent = ingameUiCanvas.transform,
-                        position = new Vector3(975, 555, 0),
+                        localPosition = new Vector3(60, 10, 0),
                     },
                     layer = ingameUiCanvas.layer,
                 };
 
                 accuracyText = accuracyTextObject.AddComponent<Text>();
-                accuracyText.rectTransform.sizeDelta = new Vector2(150, 18);
-                accuracyText.text = "Accuracy: " + (Math.Floor(__instance.pbase.accuracyScore * 10000.0) / 10000.0 * 100.0).ToString("0.00") + "%";
-                accuracyText.fontSize = 16;
+                accuracyText.rectTransform.sizeDelta = new Vector2(200, 30);
+                accuracyText.text = "" + (Math.Floor(__instance.pbase.accuracyScore * 10000.0) / 10000.0 * 100.0).ToString("0.00") + "%";
+                accuracyText.fontSize = 26;
                 accuracyText.font = Font.GetDefault();
             }
 
@@ -77,7 +77,7 @@ namespace ShowAccuracyAndMisses
         public static void GameSceneUpdate(GameScene __instance)
         {
             missText.text = "Misses: " + (__instance.pbase.fullLevelData.mapData.maxLives - __instance.pbase.lives);
-            accuracyText.text = "Accuracy: " + (Math.Floor(__instance.pbase.accuracyScore * 10000.0) / 10000.0 * 100.0).ToString("0.00") + "%";
+            accuracyText.text = "" + (Math.Floor(__instance.pbase.accuracyScore * 10000.0) / 10000.0 * 100.0).ToString("0.00") + "%";
         }
     }
 }
