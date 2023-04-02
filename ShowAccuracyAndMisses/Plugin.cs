@@ -40,6 +40,7 @@ namespace ShowAccuracyAndMisses
                         localPosition = new Vector3(40, -20, 0),
                     },
                     layer = ingameUiCanvas.layer,
+                    name = "Miss Text Middle",
                 };
 
                 missText = missTextObject.AddComponent<Text>();
@@ -60,6 +61,7 @@ namespace ShowAccuracyAndMisses
                         localPosition = new Vector3(60, 10, 0),
                     },
                     layer = ingameUiCanvas.layer,
+                    name = "Accuracy Text Middle",
                 };
 
                 accuracyText = accuracyTextObject.AddComponent<Text>();
