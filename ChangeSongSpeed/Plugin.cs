@@ -16,6 +16,8 @@ namespace ChangeSongSpeed
         private static string originalSubmitUrl;
         private static Text speedText;
         private static GameObject speedSelectorCanvas;
+        private static GameObject speedTextResultObject;
+        private static Text speedTextResultText;
 
         private void Awake()
         {
@@ -39,6 +41,26 @@ namespace ChangeSongSpeed
             logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID}: Map started. Setting speed to " + speed);
             __instance.asampler.audioSources[1].pitch = (float)speed;
             Time.timeScale = (float)speed;
+
+            if (!speedTextResultObject)
+            {
+                speedTextResultObject = new GameObject
+                {
+                    transform = {
+                        parent = __instance.gameOverCanvas.transform,
+                        localPosition = new Vector3(100, 230, 0),
+                    },
+                    name = "Speed Text",
+                    layer = __instance.gameOverCanvas.layer,
+                };
+
+                speedTextResultText = speedTextResultObject.AddComponent<Text>();
+                speedTextResultText.text = "Speed: " + speed;
+                speedTextResultText.rectTransform.sizeDelta = new Vector2(150, 25);
+                speedTextResultText.fontSize = 20;
+                speedTextResultText.font = Font.GetDefault();
+                speedTextResultText.color = Color.white;
+            }
         }
 
         [HarmonyPrefix]
@@ -69,7 +91,7 @@ namespace ChangeSongSpeed
                 {
                     transform = {
                         parent = mapSelector.transform,
-                        localPosition = new Vector3(-870, -515, 0),
+                        localPosition = new Vector3(-650, -515, 0),
                     },
                     name = "Speed Selection",
                     layer = mapSelector.layer,
@@ -98,7 +120,7 @@ namespace ChangeSongSpeed
                     transform =
                     {
                         parent = speedSelectorCanvas.transform,
-                        localPosition = new Vector3(60, 0, 0),
+                        localPosition = new Vector3(85, 0, 0),
                     },
                     name = "Speed Selection Raise",
                     layer = speedSelectorCanvas.layer,
@@ -120,7 +142,7 @@ namespace ChangeSongSpeed
                     transform =
                     {
                         parent = speedSelectorCanvas.transform,
-                        localPosition = new Vector3(85, 0, 0),
+                        localPosition = new Vector3(60, 0, 0),
                     },
                     name = "Speed Selection Raise",
                     layer = speedSelectorCanvas.layer,
@@ -154,6 +176,16 @@ namespace ChangeSongSpeed
             {
                 speed = Math.Round((speed - 0.05) * 100) / 100;
                 speedText.text = "Speed: " + speed;
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(GameScene), "Update")]
+        public static void OnMapOver(GameScene __instance)
+        {
+            if (__instance.gameOver && __instance.pbase.currentState == PlayerBase.PlayerState.Finished)
+            {
+                speedTextResultText.text = "Speed: " + speed;
             }
         }
     }
