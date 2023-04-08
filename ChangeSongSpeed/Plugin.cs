@@ -186,6 +186,8 @@ namespace ChangeSongSpeed
             if (__instance.gameOver && __instance.pbase.currentState == PlayerBase.PlayerState.Finished)
             {
                 speedTextResultText.text = "Speed: " + speed;
+                __instance.asampler.audioSources[1].pitch = 1f;
+                Time.timeScale = 1f;
             }
         }
     }
